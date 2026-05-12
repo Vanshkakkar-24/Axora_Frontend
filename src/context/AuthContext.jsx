@@ -22,6 +22,8 @@ export const AuthProvider = ({ children }) => {
         user,
         setUser,
         logout,
+        isAuthenticated: !!user,
+        booting: false,
       }}
     >
       {children}

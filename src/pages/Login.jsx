@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowRight, FolderKanban, LogIn } from 'lucide-react';
 
-import { Link, useNavigate } from "react-router-dom";
-
-import API from "../api/axios";
-
-import { useAuth } from "../context/AuthContext";
-
-import { toast } from "react-toastify";
+import API from '../api/axios';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,17 +12,16 @@ const Login = () => {
   const { setUser } = useAuth();
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: ''
   });
 
-  const [loading, setLoading] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -35,24 +32,24 @@ const Login = () => {
       setLoading(true);
 
       const { data } = await API.post(
-        "/auth/login",
+        '/auth/login',
         formData
       );
 
       localStorage.setItem(
-        "userInfo",
+        'userInfo',
         JSON.stringify(data)
       );
 
       setUser(data);
 
-      toast.success("Login successful");
+      toast.success('Login successful');
 
-      navigate("/");
+      navigate('/');
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Something went wrong"
+          'Something went wrong'
       );
     } finally {
       setLoading(false);
@@ -60,50 +57,83 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-87.5"
-      >
-        <h2 className="text-2xl font-bold mb-4">
-          Login
-        </h2>
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-6">
+      {/* Background Glow */}
+      <div className="absolute left-[-10%] top-[-10%] h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
+      <div className="absolute bottom-[-10%] right-[-10%] h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="w-full border p-2 mb-3"
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          className="w-full border p-2 mb-3"
-          onChange={handleChange}
-          required
-        />
-
-        <button
-          className="bg-black text-white w-full py-2 rounded"
+      {/* Card */}
+      <div className="relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-white/10 p-8 backdrop-blur-2xl">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="mb-8 flex items-center gap-2 text-3xl font-black text-white"
         >
-          {loading ? "Loading..." : "Login"}
-        </button>
+          <FolderKanban
+            className="text-indigo-400"
+            size={32}
+          />
+          Axora
+        </Link>
 
-        <p className="mt-4 text-sm">
-          Don’t have an account?{" "}
+        <div className="mb-8">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-400/10 px-4 py-2 text-sm font-medium text-indigo-300">
+            <LogIn size={16} />
+            Welcome back
+          </div>
+
+          <h1 className="text-4xl font-black text-white">
+            Login
+          </h1>
+
+          <p className="mt-3 text-slate-300">
+            Continue managing your projects and tasks.
+          </p>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5"
+        >
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            onChange={handleChange}
+            required
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-400 focus:border-indigo-400"
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+            required
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-400 focus:border-indigo-400"
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-semibold text-white transition hover:bg-indigo-400 disabled:opacity-70"
+          >
+            {loading ? 'Logging in...' : 'Login'}
+            <ArrowRight size={18} />
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-slate-400">
+          Don’t have an account?{' '}
           <Link
             to="/signup"
-            className="text-blue-500"
+            className="font-semibold text-indigo-300 hover:text-indigo-200"
           >
-            Signup
+            Create account
           </Link>
         </p>
-      </form>
-    </div>
+      </div>
+    </main>
   );
 };
 
