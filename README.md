@@ -60,20 +60,6 @@ The frontend is built with **React**, **Vite**, **Tailwind CSS**, **React Router
 | Projects Dashboard | Searchable, paginated project workspace |
 | Project Detail Page | Members, task filters, task cards, and task actions |
 
-Example screenshot layout:
-
-```md
-![Landing Page](./screenshots/landing.png)
-![Projects Dashboard](./screenshots/projects.png)
-![Project Detail](./screenshots/project-detail.png)
-```
-
-Current visual asset used in the landing page:
-
-```md
-src/assets/axora-hero.png
-```
-
 ## Folder Structure
 
 ```bash
