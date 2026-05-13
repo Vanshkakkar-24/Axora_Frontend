@@ -49,8 +49,6 @@ The frontend is built with **React**, **Vite**, **Tailwind CSS**, **React Router
 | Icons | Lucide React |
 | Notifications | React Toastify |
 | State Management | React Context API + Hooks |
-| Linting | ESLint |
-| Deployment Target | Static frontend hosting such as Vercel, Netlify, or Render |
 
 ## Screenshots Section
 
