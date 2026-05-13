@@ -1,10 +1,6 @@
 import { X } from 'lucide-react';
 
-export default function Modal({
-  title,
-  children,
-  onClose
-}) {
+export default function Modal({ title, children, onClose }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md"
@@ -16,6 +12,7 @@ export default function Modal({
         aria-modal="true"
         aria-labelledby="modal-title"
       >
+        
         {/* HEADER */}
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
           <h2

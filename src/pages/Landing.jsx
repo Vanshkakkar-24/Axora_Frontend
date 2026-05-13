@@ -9,6 +9,7 @@ export default function Landing() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
+      
       {/* NAVBAR */}
       <header className="absolute left-0 top-0 z-50 w-full">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6">

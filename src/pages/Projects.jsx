@@ -1,25 +1,12 @@
-import {
-  FolderKanban,
-  Plus,
-  Search,
-  Users
-} from 'lucide-react';
-
-import {
-  useEffect,
-  useState
-} from 'react';
-
+import { FolderKanban, Plus, Search, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import api from '../api/axios.js';
-
 import ErrorAlert from '../components/ErrorAlert.jsx';
 import Loading from '../components/Loading.jsx';
 import Modal from '../components/Modal.jsx';
 import Pagination from '../components/Pagination.jsx';
 import ProjectForm from '../components/ProjectForm.jsx';
-
 import { APP_NAME } from '../brand.js';
 
 export default function Projects() {
@@ -128,6 +115,7 @@ export default function Projects() {
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-10 text-white">
       <div className="mx-auto max-w-7xl">
+        
         {/* HEADER */}
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>

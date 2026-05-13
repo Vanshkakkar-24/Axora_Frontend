@@ -2,30 +2,43 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, FolderKanban, UserPlus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
+import ErrorAlert from '../components/ErrorAlert.jsx';
 import { toast } from 'react-toastify';
 
 const Signup = () => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
+  const { signup } = useAuth();
 
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] =
+    useState({
+      name: '',
+      email: '',
+      password: ''
+    });
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [error, setError] =
+    useState(null);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]:
+        e.target.value
     });
-  };
 
-  const { signup } = useAuth();
+    if (error) {
+      setError(null);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setError(null);
 
     try {
       setLoading(true);
@@ -41,11 +54,8 @@ const Signup = () => {
       );
 
       navigate('/projects');
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-        'Something went wrong'
-      );
+    } catch (submitError) {
+      setError(submitError);
     } finally {
       setLoading(false);
     }
@@ -55,6 +65,7 @@ const Signup = () => {
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-6">
       {/* Background Glow */}
       <div className="absolute left-[-10%] top-[-10%] h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
+
       <div className="absolute bottom-[-10%] right-[-10%] h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
 
       {/* Card */}
@@ -82,8 +93,14 @@ const Signup = () => {
           </h1>
 
           <p className="mt-3 text-slate-300">
-            Start organizing projects with your team.
+            Start organizing projects
+            with your team.
           </p>
+        </div>
+
+        {/* ERROR */}
+        <div className="mb-5">
+          <ErrorAlert error={error} />
         </div>
 
         <form
@@ -93,6 +110,7 @@ const Signup = () => {
           <input
             type="text"
             name="name"
+            value={formData.name}
             placeholder="Full name"
             onChange={handleChange}
             required
@@ -102,6 +120,7 @@ const Signup = () => {
           <input
             type="email"
             name="email"
+            value={formData.email}
             placeholder="Email address"
             onChange={handleChange}
             required
@@ -111,6 +130,7 @@ const Signup = () => {
           <input
             type="password"
             name="password"
+            value={formData.password}
             placeholder="Password"
             onChange={handleChange}
             required
@@ -120,9 +140,12 @@ const Signup = () => {
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-semibold text-white transition hover:bg-indigo-400 disabled:opacity-70"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-semibold text-white transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {loading ? 'Creating account...' : 'Create account'}
+            {loading
+              ? 'Creating account...'
+              : 'Create account'}
+
             <ArrowRight size={18} />
           </button>
         </form>

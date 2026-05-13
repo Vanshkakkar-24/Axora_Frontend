@@ -1,13 +1,8 @@
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
-
 import ErrorAlert from './ErrorAlert.jsx';
 
-export default function ProjectForm({
-  onSubmit,
-  onCancel,
-  saving
-}) {
+export default function ProjectForm({ onSubmit, onCancel, saving }) {
   const [form, setForm] = useState({
     name: '',
     description: ''

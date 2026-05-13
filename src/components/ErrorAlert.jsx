@@ -1,21 +1,11 @@
 import { AlertCircle } from 'lucide-react';
 
-export default function ErrorAlert({
-  error
-}) {
+export default function ErrorAlert({ error }) {
   if (!error) return null;
 
-  const message =
-    error?.response?.data
-      ?.message ||
-    error?.message ||
-    'Something went wrong';
+  const message = error?.response?.data?.message || error?.message || 'Something went wrong';
 
-  const details =
-    error?.response?.data
-      ?.details ||
-    error?.details ||
-    [];
+  const details = error?.response?.data?.details || error?.details || [];
 
   return (
     <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-red-200">

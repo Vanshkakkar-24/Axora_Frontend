@@ -2,18 +2,8 @@ import { Loader2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import ErrorAlert from './ErrorAlert.jsx';
 
-const priorities = [
-  'Low',
-  'Medium',
-  'High',
-  'Urgent'
-];
-
-const statuses = [
-  'Todo',
-  'In Progress',
-  'Done'
-];
+const priorities = ['Low', 'Medium', 'High', 'Urgent'];
+const statuses = ['Todo', 'In Progress', 'Done'];
 
 const toDateInput = (value) => {
   if (!value) return '';
@@ -22,13 +12,7 @@ const toDateInput = (value) => {
     .slice(0, 10);
 };
 
-export default function TaskForm({
-  task,
-  members,
-  onSubmit,
-  onCancel,
-  saving
-}) {
+export default function TaskForm({ task, members, onSubmit, onCancel, saving }) {
   const memberOptions = useMemo(
     () =>
       members.map(
@@ -84,31 +68,28 @@ export default function TaskForm({
       form.title.trim()
         .length < 2
     ) {
-      setError(
-        new Error(
+      setError({
+        message:
           'Task title must be at least 2 characters'
-        )
-      );
+      });
 
       return;
     }
 
     if (!form.dueDate) {
-      setError(
-        new Error(
+      setError({
+        message:
           'Due date is required'
-        )
-      );
+      });
 
       return;
     }
 
     if (!form.assignedTo) {
-      setError(
-        new Error(
+      setError({
+        message:
           'Assigned user is required'
-        )
-      );
+      });
 
       return;
     }
@@ -129,14 +110,13 @@ export default function TaskForm({
           form.status
       });
     } catch (
-      submitError
+    submitError
     ) {
       setError(submitError);
     }
   };
 
-  const inputClass =
-    'w-full rounded-2xl border border-[#222b45] bg-[#0f172a] px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-slate-500 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10';
+  const inputClass = 'w-full rounded-2xl border border-[#222b45] bg-[#0f172a] px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-slate-500 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10';
 
   return (
     <form

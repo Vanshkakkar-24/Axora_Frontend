@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, FolderKanban, LogIn } from 'lucide-react';
+import {
+  ArrowRight,
+  FolderKanban,
+  LogIn
+} from 'lucide-react';
 
 import API from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import ErrorAlert from '../components/ErrorAlert.jsx';
 import { toast } from 'react-toastify';
 
 const Login = () => {
@@ -11,30 +16,43 @@ const Login = () => {
 
   const { setUser } = useAuth();
 
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [formData, setFormData] =
+    useState({
+      email: '',
+      password: ''
+    });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
+
+  const [error, setError] =
+    useState(null);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]:
+        e.target.value
     });
+
+    if (error) {
+      setError(null);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setError(null);
+
     try {
       setLoading(true);
 
-      const { data } = await API.post(
-        '/auth/login',
-        formData
-      );
+      const { data } =
+        await API.post(
+          '/auth/login',
+          formData
+        );
 
       localStorage.setItem(
         'userInfo',
@@ -43,14 +61,13 @@ const Login = () => {
 
       setUser(data);
 
-      toast.success('Login successful');
-
-      navigate('/');
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          'Something went wrong'
+      toast.success(
+        'Login successful'
       );
+
+      navigate('/projects');
+    } catch (submitError) {
+      setError(submitError);
     } finally {
       setLoading(false);
     }
@@ -60,6 +77,7 @@ const Login = () => {
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-6">
       {/* Background Glow */}
       <div className="absolute left-[-10%] top-[-10%] h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
+
       <div className="absolute bottom-[-10%] right-[-10%] h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
 
       {/* Card */}
@@ -87,8 +105,14 @@ const Login = () => {
           </h1>
 
           <p className="mt-3 text-slate-300">
-            Continue managing your projects and tasks.
+            Continue managing your
+            projects and tasks.
           </p>
+        </div>
+
+        {/* ERROR */}
+        <div className="mb-5">
+          <ErrorAlert error={error} />
         </div>
 
         <form
@@ -98,6 +122,7 @@ const Login = () => {
           <input
             type="email"
             name="email"
+            value={formData.email}
             placeholder="Email address"
             onChange={handleChange}
             required
@@ -107,6 +132,7 @@ const Login = () => {
           <input
             type="password"
             name="password"
+            value={formData.password}
             placeholder="Password"
             onChange={handleChange}
             required
@@ -116,9 +142,12 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-semibold text-white transition hover:bg-indigo-400 disabled:opacity-70"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-semibold text-white transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading
+              ? 'Logging in...'
+              : 'Login'}
+
             <ArrowRight size={18} />
           </button>
         </form>
