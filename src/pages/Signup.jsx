@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  ArrowRight,
-  FolderKanban,
-  UserPlus
-} from 'lucide-react';
-
-import API from '../api/axios';
+import { ArrowRight, FolderKanban, UserPlus } from 'lucide-react';
+import { useAuth } from '../context/AuthContext.jsx';
 import { toast } from 'react-toastify';
 
 const Signup = () => {
@@ -27,26 +22,29 @@ const Signup = () => {
     });
   };
 
+  const { signup } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
 
-      await API.post(
-        '/auth/signup',
-        formData
+      await signup(
+        formData.name,
+        formData.email,
+        formData.password
       );
 
       toast.success(
         'Account created successfully'
       );
 
-      navigate('/login');
+      navigate('/projects');
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          'Something went wrong'
+        'Something went wrong'
       );
     } finally {
       setLoading(false);

@@ -19,7 +19,7 @@ export default function Layout() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       {/* NAVBAR */}
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50  border-white/10 bg-slate-950/80 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
           {/* LOGO */}
           <Link

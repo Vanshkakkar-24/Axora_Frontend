@@ -1,18 +1,12 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
-
-import API from '../api/axios.js';
+import { createContext, useContext, useEffect, useMemo, useState, } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../api/axios.js';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+  const navigate = useNavigate();
   const [booting, setBooting] =
     useState(true);
 
@@ -27,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const { data } = await API.get(
+        const { data } = await api.get(
           '/auth/me'
         );
 
@@ -50,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     email,
     password
   ) => {
-    const { data } = await API.post(
+    const { data } = await api.post(
       '/auth/login',
       {
         email,
@@ -63,9 +57,9 @@ export const AuthProvider = ({ children }) => {
       JSON.stringify(data)
     );
 
-    setUser(data.user);
+    setUser(data);
 
-    return data.user;
+    return data;
   };
 
   const signup = async (
@@ -73,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     email,
     password
   ) => {
-    const { data } = await API.post(
+    const { data } = await api.post(
       '/auth/signup',
       {
         name,
@@ -87,9 +81,9 @@ export const AuthProvider = ({ children }) => {
       JSON.stringify(data)
     );
 
-    setUser(data.user);
+    setUser(data);
 
-    return data.user;
+    return data;
   };
 
   const logout = () => {
@@ -98,6 +92,8 @@ export const AuthProvider = ({ children }) => {
     );
 
     setUser(null);
+
+    navigate('/');
   };
 
   const value = useMemo(

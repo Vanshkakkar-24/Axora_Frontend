@@ -235,74 +235,114 @@ export default function ProjectDetail() {
             </div>
 
             {/* MEMBERS */}
-            <div className="mb-8 grid gap-6 lg:grid-cols-2">
-              <section className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-                <div className="mb-5 flex items-center justify-between">
-                  <h2 className="text-2xl font-bold">
-                    Project members
-                  </h2>
+            <div className="mb-8 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
 
-                  <span className="rounded-full bg-indigo-500/20 px-3 py-1 text-sm text-indigo-300">
+              {/* PROJECT MEMBERS */}
+              <section className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#11182d] to-[#0b1020] p-7 shadow-[0_0_40px_rgba(0,0,0,0.35)]">
+
+                <div className="mb-7 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-3xl font-black text-white">
+                      Team Members
+                    </h2>
+
+                    <p className="mt-1 text-sm text-slate-400">
+                      People collaborating on this project
+                    </p>
+                  </div>
+
+                  <div className="flex h-11 min-w-[44px] items-center justify-center rounded-2xl bg-indigo-500/15 px-4 text-sm font-semibold text-indigo-300">
                     {members.length}
-                  </span>
+                  </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="grid gap-4 sm:grid-cols-2">
                   {members.map((member) => (
                     <div
                       key={member.user._id}
-                      className="rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3"
+                      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-all duration-300 hover:border-indigo-500/30 hover:bg-indigo-500/[0.06]"
                     >
-                      <p className="font-medium">
-                        {member.user.name}
-                      </p>
+                      {/* glow */}
+                      <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-indigo-500/10 blur-3xl" />
+                      </div>
 
-                      <p className="text-sm text-slate-400 capitalize">
-                        {member.role}
-                      </p>
+                      <div className="relative flex items-center gap-4">
+
+                        {/* AVATAR */}
+                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-500 text-lg font-bold text-white shadow-lg shadow-indigo-500/20">
+                          {member.user.name
+                            ?.charAt(0)
+                            ?.toUpperCase()}
+                        </div>
+
+                        {/* INFO */}
+                        <div className="min-w-0 flex-1">
+                          <h3 className="truncate text-lg font-semibold text-white">
+                            {member.user.name}
+                          </h3>
+
+                          <p className="truncate text-sm text-slate-400">
+                            {member.user.email}
+                          </p>
+
+                          <div className="mt-2 inline-flex rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium capitalize text-slate-300">
+                            {member.role}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
               </section>
 
+              {/* ADD MEMBER */}
               {isOwner && (
-                <section className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-                  <div className="mb-5 flex items-center justify-between">
-                    <h2 className="text-2xl font-bold">
-                      Add member
-                    </h2>
+                <section className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#11182d] to-[#0b1020] p-7 shadow-[0_0_40px_rgba(0,0,0,0.35)]">
 
-                    <span className="rounded-full bg-amber-500/20 px-3 py-1 text-sm text-amber-300">
+                  <div className="mb-6 flex items-start justify-between gap-4">
+                    <div>
+                      <h2 className="text-3xl font-black text-white">
+                        Add Member
+                      </h2>
+
+                      <p className="mt-2 text-sm leading-6 text-slate-400">
+                        Invite existing users to collaborate
+                        and assign tasks within this workspace.
+                      </p>
+                    </div>
+
+                    <span className="whitespace-nowrap rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-300">
                       Owner only
                     </span>
                   </div>
 
-                  <p className="mb-5 text-slate-400">
-                    Add an existing user
-                    before assigning tasks.
-                  </p>
-
                   <form
                     onSubmit={addMember}
-                    className="flex flex-col gap-4 md:flex-row"
+                    className="space-y-4"
                   >
-                    <input
-                      type="email"
-                      value={memberEmail}
-                      onChange={(event) =>
-                        setMemberEmail(
-                          event.target.value
-                        )
-                      }
-                      placeholder="member@example.com"
-                      required
-                      className="flex-1 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-indigo-400"
-                    />
 
+                    {/* INPUT */}
+                    <div className="relative">
+                      <input
+                        type="email"
+                        value={memberEmail}
+                        onChange={(event) =>
+                          setMemberEmail(
+                            event.target.value
+                          )
+                        }
+                        placeholder="member@example.com"
+                        required
+                        className="w-full rounded-2xl border border-[#222b45] bg-[#0f172a] px-5 py-4 text-white outline-none transition-all placeholder:text-slate-500 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+                      />
+                    </div>
+
+                    {/* BUTTON */}
                     <button
                       type="submit"
                       disabled={savingMember}
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-white/10 px-6 py-3 font-medium transition hover:bg-white/20 disabled:opacity-50"
+                      className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-500 px-6 py-4 font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all hover:scale-[1.01] hover:from-indigo-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {savingMember ? (
                         <Loader2
@@ -317,10 +357,20 @@ export default function ProjectDetail() {
                     </button>
                   </form>
 
+                  {/* ERROR */}
                   <div className="mt-4">
                     <ErrorAlert
                       error={memberError}
                     />
+                  </div>
+
+                  {/* INFO CARD */}
+                  <div className="mt-6 rounded-2xl border border-indigo-500/10 bg-indigo-500/[0.05] p-4">
+                    <p className="text-sm leading-6 text-slate-300">
+                      Members added here can immediately
+                      access tasks, updates and collaboration
+                      features inside this project.
+                    </p>
                   </div>
                 </section>
               )}
